@@ -40,7 +40,6 @@ parser.add_argument('--seed', type=int, default=0, help='seed')
 parser.add_argument('--nb_steps', type=int, default=1000, help='nb_steps')   # 128
 parser.add_argument('--scheduler_alpha', type=str, default='linear', help='scheduler type')
 parser.add_argument('--scheduler_gamma', type=str, default='linear', help='scheduler type')
-# parser.add_argument('--pow_index', type=float, default=2, help='power index')
 parser.add_argument('--scheduler_param', type=float, default=0.02, help='scheduler parameter for scheduler_gamma')
 parser.add_argument('--scheduler_param_s', type=float, default=0, help='scheduler parameter for scheduler_gamma')
 parser.add_argument('--scheduler_param_e', type=float, default=3, help='scheduler parameter for scheduler_gamma')
@@ -67,33 +66,25 @@ parser.add_argument("--skip", type=int, default=1, help="numbe of skipped steps"
 parser.add_argument("--test_samples", type=int, default=10, help="numbe of generated samples")
 parser.add_argument("--out_channel", type=int, default=6, help="out_channel is 3 or 6")
 
-
 opt = parser.parse_args()
 
-
 dimension = 3
-
 seed = opt.seed
 torch.cuda.manual_seed(seed)
 torch.manual_seed(seed)
 np.random.seed(seed)
 random.seed(seed)
-
-
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
-
 alpha_min = opt.alpha_min
-
 if platform.system() == 'Windows':
     # opt.batch_size = 1    # 1, 2, 4
     pass
-
 
 cov_mat_L = np.load('./bluenoise/cov_gaussianBN_L_res{:}_d{:}.npz'.format(64, dimension))['x'].astype(np.float32)
 if opt.noise_type in ['gaussianRN']:
     cov_mat_L = np.load('./bluenoise/cov_gaussianRN_L_res{:}_d{:}.npz'.format(64, dimension))['x'].astype(np.float32)
 cov_mat_L = torch.from_numpy(cov_mat_L).to(device).detach()
+
 
 
 def get_scheduler(x, scheduler):
@@ -153,9 +144,6 @@ def get_scheduler(x, scheduler):
 
 
 
-
-
-
 def get_scheduler_gamma(x, scheduler, scheduler_params):
     
     scheduler_param = scheduler_params[0]
@@ -212,51 +200,6 @@ def get_scheduler_gamma(x, scheduler, scheduler_params):
 
     return x
 
-
-## unit test get_scheduler
-if False:
-    x = np.linspace(0, opt.nb_steps, opt.nb_steps)
-    plt.figure(1)
-    if opt.scheduler_gamma == 'cosine':
-        # plt.title('cosine scheduler with different powers')
-        scheduler_param_list = [1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10]
-    elif opt.scheduler_gamma == 'sigmoid':
-        # plt.title('sigmoid scheduler with different powers')
-        # scheduler_param_tau_list = [0.01, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
-        # scheduler_param_tau_list = [0.1, 0.2, 0.5, 1.0, 1000.0]     # our figure
-        scheduler_param_tau_list = [0.2]
-        
-        # scheduler_param_s_list = [0, -1, -2, -3, -4, -5, -1.5]
-
-    else:
-        raise NotImplementedError
-    scheduler_param_list = scheduler_param_tau_list
-    for scheduler_param in scheduler_param_list:
-        y = get_scheduler_gamma(torch.from_numpy(x).float(), opt.scheduler_gamma, [scheduler_param, 0, 3])
-        plt.plot(x / opt.nb_steps, y)
-        # print('y, x:', y, x)
-    # plt.plot(x, x / opt.nb_steps, 'k--')
-    
-    # for scheduler_param in [9, 10]:
-    #     y = get_scheduler_gamma(torch.from_numpy(x).float(), 'cosine', [scheduler_param, 0.2, 1])
-    #     plt.plot(x / opt.nb_steps, y)
-
-    plt.legend([r'$\tau={:}$'.format(str(x)) for x in scheduler_param_list], prop={'size': 15})
-    # plt.ylabel(r'$\gamma_t$')
-    # plt.xlabel(r'$0.1$')
-    plt.gca().set_ylabel(r'$\gamma_t$', fontsize=15) 
-    plt.gca().set_xlabel(r'$t/T$', fontsize=15)
-    plt.show()
-    # plt.savefig('results/scheduler_gamma_sigmoid_v1.png', bbox_inches='tight', pad_inches=0.0, dpi=300)
-    # plt.clf()
-
-
-
-
-
-def toroidalWrapAround(points, domain_size=1):  # for arbitrary domain size
-    points = np.where(np.greater(points, 1), points - np.floor(points), points)
-    return np.where(np.less(points, 0), points + np.ceil(np.abs(points)), points)
 
 
 def get_model(inp_channel=3, out_channel=3):
@@ -438,7 +381,6 @@ def sample_iadb(model, x0, nb_step, scheduler_params):
 
 
 
-
 @torch.no_grad()
 def sample_iadb_conditional(model, x0, x_c, nb_step, scheduler_params):
     x_all = []
@@ -497,13 +439,10 @@ def sample_iadb_conditional(model, x0, x_c, nb_step, scheduler_params):
 
 
 
-
 DATA_FOLDER = './data/{:}'.format(opt.dataset)
 transform = transforms.Compose([transforms.Resize(opt.res),transforms.CenterCrop(opt.res), transforms.RandomHorizontalFlip(0.5),transforms.ToTensor()])
 test_transform = transforms.Compose([transforms.Resize(opt.res),transforms.CenterCrop(opt.res), transforms.ToTensor()])
-
 start_time = time.time()
-
 if opt.is_conditional:
     if opt.train_or_test == 'train':
         train_dataset = torchvision.datasets.ImageFolder(root=DATA_FOLDER+'_train', transform=transform)
@@ -512,9 +451,7 @@ if opt.is_conditional:
     test_dataset = torchvision.datasets.ImageFolder(root=DATA_FOLDER+'_test', transform=test_transform)
 else:
     train_dataset = torchvision.datasets.ImageFolder(root=DATA_FOLDER, transform=transform)
-
 print('dataloader time, dataset size:', time.time() - start_time, len(train_dataset))
-
 
 if platform.system() == 'Windows':
     num_workers = 0
@@ -528,14 +465,11 @@ else:
     else:
         raise NotImplementedError
 
-
 is_shuffle = True
 if opt.train_or_test == 'test_amin':
     is_shuffle = False
-
 drop_last = True
 dataloader = torch.utils.data.DataLoader(train_dataset, batch_size=opt.batch_size, shuffle=is_shuffle, num_workers=num_workers, drop_last=drop_last)   # True
-
 device_count = torch.cuda.device_count()
 print('device_count:', device_count)
 
@@ -543,7 +477,6 @@ if opt.noise_type in ['gaussianBN', 'gaussianRN']:
     pass
 else:
     opt.out_channel = 3
-
 
 if opt.is_conditional:
     outer_folder = 'results_gaussianBN_{:}'.format(opt.conditional_type)
@@ -562,9 +495,9 @@ else:
         else:
             output_folder = outer_folder + '/{:}_{:}_{:}_{:}_{:}_{:}_outc{:}_seed{:}'.format(opt.dataset, opt.noise_type, opt.scheduler_gamma, opt.scheduler_param, opt.scheduler_param_s, opt.scheduler_param_e, opt.out_channel, opt.seed)
     
-
 if not os.path.exists(output_folder):
     os.makedirs(output_folder, exist_ok=True)
+
 
 
 def main():
@@ -606,7 +539,6 @@ def main():
     scheduler_params[1] = scheduler_param_s_min + (scheduler_param_s_max - scheduler_param_s_min) * scheduler_params[1]
     scheduler_params[2] = scheduler_param_e_min + (scheduler_param_e_max - scheduler_param_e_min) * scheduler_params[2]
     # print('scheduler_params:', scheduler_params)
-    # return
     
     if opt.optimize_scheduler_param:
         # # experimentally set to better initialized values based on the image resolution
@@ -616,10 +548,7 @@ def main():
         #     scheduler_param[:] = 0.2    # as it converges to around 0.2
         # else:
         #     raise NotImplementedError
-        
         pass
-
-    # optimizer_cov = Adam([cov_mat_diag.requires_grad_()], lr=0.01)
 
     # conditional image generation
     is_conditional = opt.is_conditional
@@ -627,8 +556,8 @@ def main():
     if is_conditional:
         if opt.conditional_type in ['superres']:
             inp_chanel = 6  # 6
-        elif opt.conditional_type in ['coloring']:
-            inp_chanel = 4
+        # elif opt.conditional_type in ['coloring']:
+        #     inp_chanel = 4
         else:
             raise NotImplementedError
     
@@ -636,7 +565,7 @@ def main():
 
     if train_or_test == 'test' and is_conditional:
 
-        print('superres or coloring')
+        print('===> Start conditional sampling / superres')
         
         from piq import psnr, ssim, SSIMLoss
         model.load_state_dict(torch.load(f'{output_folder}/model.ckpt'))
@@ -686,9 +615,6 @@ def main():
 
         with torch.no_grad():
             for i, data in enumerate(tqdm(test_dataloader)):     # test_dataloader
-                
-                # if (i + 1) not in [3, 14, 84, 187]:
-                #     continue
                 if (i + 1) > 389:
                     return
                 if (i + 1) not in [74, 104, 278, 389]:  # test the ones in the paper
@@ -758,7 +684,7 @@ def main():
 
                 
     if train_or_test == 'test':
-        print('Start testing')
+        print('===> Start unconditional sampling')
         
         if opt.noise_type in ['gaussianBN']:
             folder_name_noise = 'gwn2gbn'
@@ -842,12 +768,9 @@ def main():
             # print('x0:', x0.shape, x0.min(), x0.max())
             
             t = torch.randint(low=opt.nb_steps, high=opt.nb_steps+1, size=(x0.shape[0], )).to(device)
-            # t = torch.randint(low=1, high=1+1, size=(x0.shape[0], )).to(device)
             
-            # if opt.optimize_scheduler_param:
             gamma_t = get_scheduler_gamma(t.float(), opt.scheduler_gamma, scheduler_params)
-            # else:
-            #     gamma_t = get_scheduler(t.float(), opt.scheduler_gamma)
+            
             start_time = time.time()
             # x0, _, _ = get_noise_v2(device, x0, cov_mat_L, gamma_t, t, noise_type=opt.noise_type, train_or_test='test', inplace=True)
             
@@ -899,7 +822,8 @@ def main():
     
     
 
-    print('Start training')
+
+    print('===> Start training')
 
     if opt.resume_training:
         model.load_state_dict(torch.load(f'{output_folder}/model.ckpt'))
@@ -1007,47 +931,26 @@ def main():
                     x_c = torch.nn.functional.interpolate(x1, size=(opt.res//downscale, opt.res//downscale), mode='bilinear', align_corners=True)
                     x_c = torch.nn.functional.interpolate(x_c, size=(opt.res, opt.res), mode='bilinear', align_corners=True)
                     
-                elif opt.conditional_type in ['coloring']:
-                    x_c = torch.nn.functional.interpolate(x1, size=(opt.res//2, opt.res//2), mode='bilinear', align_corners=True)
-                    x_c = torch.nn.functional.interpolate(x_c, size=(opt.res, opt.res), mode='bilinear', align_corners=True)
+                # elif opt.conditional_type in ['coloring']:
+                #     x_c = torch.nn.functional.interpolate(x1, size=(opt.res//2, opt.res//2), mode='bilinear', align_corners=True)
+                #     x_c = torch.nn.functional.interpolate(x_c, size=(opt.res, opt.res), mode='bilinear', align_corners=True)
+                
                 d = model(torch.cat([x_alpha, x_c], 1), alpha, return_dict=False)[0]
-                # d = model(x_alpha, alpha, return_dict=False)[0]
+                
             else:
                 d = model(x_alpha, alpha, return_dict=False)[0]
                 # d = model(x_alpha, t.float())
             
             if opt.noise_type in ['gaussianBN', 'gaussianRN']:
-                
-                # tar = x1 - x0
-                # delta_t = 1.0 / opt.nb_steps
-                # print('delta_t_1:', delta_t)
-                # alpha_t_plus_1 = get_scheduler((t + 1).float())
+
                 alpha_t_minus_1 = get_scheduler((t - 1).float(), opt.scheduler_alpha)
-                
-                # delta_t = alpha_t_plus_1 - alpha
-                # print('delta_t_2:', delta_t)
-                # constant_term = alpha.view(-1, 1, 1, 1) + delta_t.view(-1, 1, 1, 1)
-                # constant_term = alpha_t_minus_1.view(-1, 1, 1, 1)
-                # print(x1.shape, x0.shape, noise_bn.shape, noise_wn.shape, constant_term.shape)
-                # print('d:', d.shape)
-                # d1 = d[:, :3, ...]
-                # d2 = d[:, 3:, ...]
 
-                # separate
-                # tar1 = x1 - x0
-                # tar2 = noise_bn - noise_wn
-
-                # together
                 if opt.out_channel == 3:
                     tar = x1 - x0 + alpha_t_minus_1.view(-1, 1, 1, 1) * (noise_bn - noise_wn)
-                    # tar = x1 - x0 + noise_bn * constant_term - noise_wn * constant_term
-                    # print('tar:', tar.shape, tar.min(), tar.max())
-                    # loss = (torch.sum((d - tar1)**2) + torch.sum((d2 - tar2)**2)) / 2.0
                     loss = torch.sum((d - tar)**2)
 
                 elif opt.out_channel == 6:
                     tar1 = x1 - x0
-
                     tar2 = alpha_t_minus_1.view(-1, 1, 1, 1) * (noise_bn - noise_wn)
                     d1 = d[:, :3, ...]
                     d2 = d[:, 3:, ...]
@@ -1062,31 +965,18 @@ def main():
                     loss2 = torch.sum((d2 - tar2)**2, dim=[1, 2, 3])
                     loss1 = torch.sum(loss1 * delta_alpha_t / delta_alpha_t)    # weight is simply 1
                     loss2 = torch.sum(loss2 * delta_gamma_t / delta_alpha_t)    # weighted loss
-                    # print(loss2.shape, loss2)
-                    # print('loss1, loss2', loss1, loss2)
-                    # loss = (torch.sum((d1 - tar1)**2) + torch.sum((d2 - tar2)**2)) / 2.0
-                    # loss = (loss1 + loss2) / 2.0
-                    # if both_loss:
                     loss = loss1 + loss2
-                    # else:
-                    #     loss = loss1
-                   
-                
+                    
                 else:
                     raise NotImplementedError
                 
             elif opt.noise_type in ['gaussian', 'GBN']:
-                # print(d.shape, x1.shape, x0.shape)c
                 loss = torch.sum((d - (x1-x0))**2)
             else:
                 raise NotImplementedError
             
             optimizer.zero_grad()
-            # optimizer2.zero_grad()
-            # optimizer_cov.zero_grad()
-            # if opt.optimize_scheduler_param:
             optimizer_scheduler_param.zero_grad()
-
             loss.backward()
 
             try:
@@ -1095,9 +985,7 @@ def main():
                 pass
 
             optimizer.step()
-
             optimizer_scheduler_param.step()
-
             nb_iter += 1
 
             losses.append(loss.item())
@@ -1112,10 +1000,6 @@ def main():
 
             # print('loss:', loss.item(), opt.noise_type)
             # break
-
-            # if nb_iter % 200 == 0:
-            #     pass
-                
             
         # continue
         print('np.array(losses):', np.mean(np.array(losses)))
@@ -1139,18 +1023,10 @@ def main():
         plt.clf()
 
         np.savetxt(f'{output_folder}/scheduler_params.txt', scheduler_params.detach().cpu().numpy())
-        # np.savetxt(f'{output_folder}/scheduler_params.txt', np.array(scheduler_params))
         
         save_model_name = 'model'
-        if opt.resume_training:
-            save_model_name = 'model2'
         torch.save(model.module.state_dict(), f'{output_folder}/{save_model_name}.ckpt')
 
-
-    # print('cov_mat_L:', cov_mat_L, cov_mat_diag)
-    # np.savetxt(f'{output_folder}/cov_mat_diag.txt', cov_mat_diag.detach().cpu().numpy())
-    
-    
 
 if __name__ == '__main__':
     main()
