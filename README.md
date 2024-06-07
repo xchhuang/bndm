@@ -12,7 +12,7 @@ This repository contains the code for our paper:
 
 
 **TL;DR** we present:
-* a first framework studying the impact of noise correlation across pixels and images in diffusion models; 
+* a first framework studying the impact of noise correlation within and across images in diffusion models; 
 * a novel time-varying noise model (from Gaussian white to blue noise) for denoising diffusion models; 
 * a fast blue noise generation method using matmul and tiling; 
 * evaluations on image generation, super-resolution and latent diffusion.
@@ -78,8 +78,8 @@ To reproduce main paper figure 1, 6, 11, 12, we provide the corresponding script
 * `church_res64_test.sh`: figure 1, 11, corresponds to folders `results_gaussianBN/church_res64_*`
 * `cat_res64_test.sh`: figure 11, corresponds to folders `results_gaussianBN/cat_res64_*`
 * `celeba_res64_test.sh`: figure 11, corresponds to folders `results_gaussianBN/celeba_res64_*`
-* `cat_res128_test.sh`: noise wrong figure 12, corresponds to folders `results_gaussianBN/cat_res128_*`
-* `celeba_res128_test.sh`: noise wrong figure 12, corresponds to folders `results_gaussianBN/celeba_res128_*`
+* `cat_res128_test.sh`: figure 12, corresponds to folders `results_gaussianBN/cat_res128_*`
+* `celeba_res128_test.sh`: figure 12, corresponds to folders `results_gaussianBN/celeba_res128_*`
 
 Results are shown in a `seqs` within each folder.
 
@@ -101,16 +101,6 @@ If you find this code useful please consider citing:
   title={Blue noise for diffusion models},
   author={Huang, Xingchang and Sala{\"u}n, Corentin and Vasconcelos, Cristina and Theobalt, Christian and {\"O}ztireli, Cengiz and Singh, Gurprit},
   journal={arXiv preprint arXiv:2402.04930},
-  year={2024}
-}
-```
-or
-```
-@inproceedings{huang2024blue,
-  title={Blue noise for diffusion models},
-  author={Huang, Xingchang and Sala{\"u}n, Corentin and Vasconcelos, Cristina and Theobalt, Christian and {\"O}ztireli, Cengiz and Singh, Gurprit},
-  booktitle={SIGGRAPH 2024 Conference Papers},
-  pages={1--11},
   year={2024}
 }
 ```
