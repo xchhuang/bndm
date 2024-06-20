@@ -8,7 +8,7 @@ This repository contains the code for our paper:
 > 
 > SIGGRAPH (Conference Proceedings), 2024
 
-![teaser](asset/teaser.png)
+![teaser](asset/representative.jpg)
 
 
 **TL;DR** we present:
@@ -37,8 +37,9 @@ This repository contains the code for our paper:
 
 
 ## 🛠️ Installation
+The following are tested on Windows 10 / Linux, with an NVIDIA GeForce RTX 4090 and CUDA 11.8 installed.
 
-Install the required packages in Anaconda by running the following commands:
+First, install Anaconda [here](https://docs.anaconda.com/anaconda/install/) if you haven't. Then, install the required packages in the Anaconda command line environment by running the following commands:
 ```
 conda create -n bndm python=3.10
 conda install pytorch==2.0.0 torchvision==0.15.0 torchaudio==2.0.0 pytorch-cuda=11.8 -c pytorch -c nvidia
@@ -60,9 +61,6 @@ pip install lmdb
 
 
 ## 🗝️ Usage
-
-The following are tested on an NVIDIA GeForce RTX 4090.
-
 
 ### 🤗 Noise generation
 
