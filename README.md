@@ -23,8 +23,8 @@ This repository contains the code for our paper:
 * 06/2024: Code released.
 
 
-## ✊ Todo
-- [ ] training code for latent diffusion
+<!-- ## ✊ Todo
+- [ ] training code for latent diffusion -->
 
 
 ## 📂 Code structure
@@ -47,6 +47,7 @@ pip install accelerate
 pip install matplotlib
 pip install scipy
 pip install opencv-python
+pip install lmdb
 ```
 
 <!-- * Please double check if you have downloaded the required data following the previous section. -->
@@ -73,15 +74,16 @@ python scripts/fig_main_3_4_inset_10_supp_1_2.py
 
 ### 🤗 Sampling using pre-trained models
 
-To reproduce main paper figure 1, 6, 11, 12, we provide the corresponding scripts in `scripts/sampling`:
+To reproduce main paper figure 1, 6, 9, 11, 12, we provide the corresponding scripts in `scripts/sampling`:
 * `iadb_church_superres_test.sh`: figure 6, corresponds to folders in `results_gaussianBN_superres`
 * `church_res64_test.sh`: figure 1, 11, corresponds to folders `results_gaussianBN/church_res64_*`
 * `cat_res64_test.sh`: figure 11, corresponds to folders `results_gaussianBN/cat_res64_*`
 * `celeba_res64_test.sh`: figure 11, corresponds to folders `results_gaussianBN/celeba_res64_*`
 * `cat_res128_test.sh`: figure 12, corresponds to folders `results_gaussianBN/cat_res128_*`
 * `celeba_res128_test.sh`: figure 12, corresponds to folders `results_gaussianBN/celeba_res128_*`
+* `latent_iadb_cat_res512_test.sh`: figure 9, corresponds to folders `results_gaussianBN/latent_iadb_cat_res512_*`
 
-Results are shown in a `seqs` within each folder.
+Results are shown in a `images` and `seqs` within each folder.
 
 
 ### 🚀 Training
@@ -89,7 +91,7 @@ To reproduce the training process, we provide the corresponding scripts in `scri
 Be careful the newly trained model are saved in the same subfolder inside `results_gaussianBN` and overwrite the one old. Please rename the corresponding subfolder before training a new model.
 
 * `iadb_bn_cat_res64.sh`: training on AFHQ-Cat (64x64)
-* `iadb_bn_cat_res512.sh`: (work in progress)
+* `latent_iadb_cat_res512.sh`: training on AFHQ-Cat (512x512) in a latent diffusion style
 
 After training, you can use the same sampling script for generating images.
 
