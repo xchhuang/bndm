@@ -83,7 +83,7 @@ To reproduce main paper figure 1, 6, 9, 11, 12, we provide the corresponding scr
 * `celeba_res128_test.sh`: figure 12, corresponds to folders `results_gaussianBN/celeba_res128_*`
 * `latent_iadb_cat_res512_test.sh`: figure 9, corresponds to folders `results_gaussianBN/latent_iadb_cat_res512_*`
 
-Results are shown in a `images` and `seqs` within each folder.
+Results are shown in `images` and `seqs` within each folder.
 
 
 ### 🚀 Training
