@@ -91,7 +91,7 @@ Be careful the newly trained model are saved in the same subfolder inside `resul
 * `iadb_bn_cat_res64.sh`: training on AFHQ-Cat (64x64)
 * `latent_iadb_cat_res512.sh`: training on AFHQ-Cat (512x512) in a latent diffusion style
 
-After training, you can use the same sampling script for generating images.
+After training, you can use the same sampling scripts for generating images. Note that training takes long and we used normally 4 GPUs.
 
 
 ## 👍 Citation
