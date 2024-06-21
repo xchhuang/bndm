@@ -92,7 +92,7 @@ def fig_main_10():
         t = torch.randint(low=cur_step, high=cur_step+1, size=(batch_size, )).to(device)
         gamma_t = get_scheduler_gamma(t.float(), scheduler_gamma, scheduler_params)
         gaussian_white_noise = torch.randn(batch_size, 3, 64, 64).float().to(device)
-        gaussian_red_noise, _, _ = get_noise_v2(device, gaussian_white_noise, cov_mat_L_rn, None, None, gamma_t, t, noise_type=noise_type, train_or_test='test', inplace=True)
+        gaussian_red_noise, _, _ = get_noise_v2(device, gaussian_white_noise, cov_mat_L_rn, gamma_t, t, noise_type=noise_type, train_or_test='test', inplace=True)
         
         gaussian_red_noise_plot = (gaussian_red_noise - gaussian_red_noise.min()) / (gaussian_red_noise.max() - gaussian_red_noise.min())
 
@@ -114,7 +114,7 @@ def fig_main_3_4():
         t = torch.randint(low=cur_step, high=cur_step+1, size=(batch_size, )).to(device)
         gamma_t = get_scheduler_gamma(t.float(), scheduler_gamma, scheduler_params)
         gaussian_white_noise = torch.randn(batch_size, 3, 64, 64).float().to(device)
-        gaussian_blue_noise, _, _ = get_noise_v2(device, gaussian_white_noise, cov_mat_L, None, None, gamma_t, t, noise_type=noise_type, train_or_test='test', inplace=True)
+        gaussian_blue_noise, _, _ = get_noise_v2(device, gaussian_white_noise, cov_mat_L, gamma_t, t, noise_type=noise_type, train_or_test='test', inplace=True)
         
         gaussian_blue_noise_plot = (gaussian_blue_noise - gaussian_blue_noise.min()) / (gaussian_blue_noise.max() - gaussian_blue_noise.min())
 
@@ -148,7 +148,7 @@ def fig_supp_1_2():
                     for i in range(num_per_axis):
                         for j in range(num_per_axis):
                             gaussian_white_noise[:, :, i*64:(i+1)*64, j*64:(j+1)*64] = patch
-                gaussian_blue_noise, _, _ = get_noise_v2(device, gaussian_white_noise, cov_mat_L, None, None, gamma_t, t, noise_type=noise_type, train_or_test='test', inplace=True)
+                gaussian_blue_noise, _, _ = get_noise_v2(device, gaussian_white_noise, cov_mat_L, gamma_t, t, noise_type=noise_type, train_or_test='test', inplace=True)
                 
                 gaussian_blue_noise_plot = (gaussian_blue_noise - gaussian_blue_noise.min()) / (gaussian_blue_noise.max() - gaussian_blue_noise.min())
 

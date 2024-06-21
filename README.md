@@ -106,6 +106,10 @@ If you find this code useful please consider citing:
 ```
 
 
+## 🔒 License
+Blue noise for diffusion model is under the [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/) license. The license applies to the pre-trained models and the metadata as well.
+
+
 ## Acknowledgement
-* Our code builds upon [iadb](https://github.com/tchambon/IADB/tree/main), [iadb-fun](https://github.com/pharmapsychotic/iadb-fun), [ddim](https://github.com/ermongroup/ddim). We thank the authors for releasing their code.
+Our code builds upon [iadb](https://github.com/tchambon/IADB/tree/main), [iadb-fun](https://github.com/pharmapsychotic/iadb-fun), [ddim](https://github.com/ermongroup/ddim). We thank the authors for releasing their code.
 
