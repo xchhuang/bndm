@@ -1,19 +1,3 @@
-#!/bin/bash
-#SBATCH -p gpu20
-#SBATCH -t 06:00:00
-#SBATCH -o slurm_outputs/slurm-%j.out
-#SBATCH --gres gpu:1
-
-mkdir -p slurm_outputs
-
-noise_type=$1
-scheduler_gamma=$2
-scheduler_param=$3
-out_channel=$4
-
-
-
-
 
 # fig 12: cat (128x128), iadb (gaussian) and ours (gaussianBN)
 
