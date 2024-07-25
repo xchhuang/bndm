@@ -98,10 +98,11 @@ After training, you can use the same sampling scripts for generating images. Not
 ## 👍 Citation
 If you find this code useful please consider citing:
 ```
-@article{huang2024blue,
+@inproceedings{huang2024blue,
   title={Blue noise for diffusion models},
-  author={Huang, Xingchang and Sala{\"u}n, Corentin and Vasconcelos, Cristina and Theobalt, Christian and {\"O}ztireli, Cengiz and Singh, Gurprit},
-  journal={arXiv preprint arXiv:2402.04930},
+  author={Huang, Xingchang and Salaun, Corentin and Vasconcelos, Cristina and Theobalt, Christian and Oztireli, Cengiz and Singh, Gurprit},
+  booktitle={ACM SIGGRAPH 2024 Conference Papers},
+  pages={1--11},
   year={2024}
 }
 ```
