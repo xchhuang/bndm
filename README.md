@@ -19,7 +19,7 @@ This repository contains the code for our paper:
 
 
 ## 📰 News
-
+* 07/2024: This code has been granted the [Graphics Replicability Stamp](https://www.replicabilitystamp.org/#https-github-com-xchhuang-bndm).
 * 06/2024: Code released.
 
 
