@@ -654,11 +654,11 @@ def main(args):
             
             if args.dataset_name in ['cat_res64'] and i not in [4]:    
                 continue
-            if args.dataset_name in ['cat_res128'] and i not in [52]:
+            if args.dataset_name in ['cat_res128'] and i not in [0, 52]:
                 continue
             if args.dataset_name in ['celeba_res64'] and i not in [37]:
                 continue
-            if args.dataset_name in ['celeba_res128'] and i not in [10]:
+            if args.dataset_name in ['celeba_res128'] and i not in [10, 26]:
                 continue
             if args.dataset_name in ['church_res64'] and i not in [4, 23, 32, 36]:
                 continue
