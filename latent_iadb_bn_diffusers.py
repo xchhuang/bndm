@@ -333,7 +333,7 @@ def main():
 
     # Initialize the model
     if args.model_config_name_or_path is None:
-       
+        
         if args.resolution == 64:
             block_out_channels=(128, 128, 256, 256, 512, 512)
             down_block_types=("DownBlock2D", "DownBlock2D", "DownBlock2D", "DownBlock2D", "AttnDownBlock2D", "DownBlock2D")
@@ -344,10 +344,14 @@ def main():
             down_block_types=("DownBlock2D", "DownBlock2D", "DownBlock2D", "DownBlock2D", "DownBlock2D", "AttnDownBlock2D", "DownBlock2D")
             up_block_types=("UpBlock2D", "AttnUpBlock2D", "UpBlock2D", "UpBlock2D", "UpBlock2D", "UpBlock2D", "UpBlock2D")
 
+        # newly updated
         elif args.resolution in [256]:
-            block_out_channels=(128, 128, 128, 256, 256, 512, 512)
-            down_block_types=("DownBlock2D", "DownBlock2D", "DownBlock2D", "DownBlock2D", "DownBlock2D", "AttnDownBlock2D", "DownBlock2D")
-            up_block_types=("UpBlock2D", "AttnUpBlock2D", "UpBlock2D", "UpBlock2D", "UpBlock2D", "UpBlock2D", "UpBlock2D")
+            # block_out_channels=(128, 128, 128, 256, 256, 512, 512)
+            # down_block_types=("DownBlock2D", "DownBlock2D", "DownBlock2D", "DownBlock2D", "DownBlock2D", "AttnDownBlock2D", "DownBlock2D")
+            # up_block_types=("UpBlock2D", "AttnUpBlock2D", "UpBlock2D", "UpBlock2D", "UpBlock2D", "UpBlock2D", "UpBlock2D")
+            block_out_channels=(128, 256, 256)
+            down_block_types=("DownBlock2D", "DownBlock2D", "AttnDownBlock2D")
+            up_block_types=("AttnUpBlock2D", "UpBlock2D", "UpBlock2D")
 
         elif args.resolution in [512]:
             block_out_channels=(128, 128, 256, 256, 512, 512)

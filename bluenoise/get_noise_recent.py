@@ -73,7 +73,34 @@ def get_noise_v2(device, x, cov_mat_L, alpha_t, time_step, noise_type='gaussian'
 
     elif noise_type in ['gaussianBN', 'gaussianRN', 'GBN']:
         
-        if x.shape[-1] == 64:
+        # newly added and hard coded for now
+        if x.shape[-1] == 32:
+            x = torch.cat((x, x), dim=-2)
+            x = torch.cat((x, x), dim=-1)
+            if inplace:
+                noise = x
+            else:
+                noise = torch.randn_like(x)
+            B, C, H, W = noise.shape
+            noise_wn = noise.clone()
+            noise = noise.view(B, C, -1).permute(0, 2, 1)
+            
+            noise_bn = torch.matmul(cov_mat_L, noise).permute(0, 2, 1).contiguous().view(B, C, H, W)
+            
+            if noise_type in ['gaussianBN', 'gaussianRN']:
+                noise = noise_bn * (1 - alpha_t.view(-1, 1, 1, 1)) + noise_wn * alpha_t.view(-1, 1, 1, 1)
+            elif noise_type in ['GBN']:
+                noise = noise_bn
+            else:
+                raise NotImplementedError
+            # print('time_step:', time_step, delta_t)
+            noise = noise[:, :, 0:32, 0:32]
+            noise_bn = noise_bn[:, :, 0:32, 0:32]
+            noise_wn = noise_wn[:, :, 0:32, 0:32]
+            # noise = torch.matmul(cov_mat_L, noise).permute(0, 2, 1).contiguous().view(B, C, H, W)    # cov_mat_L.to(device) is super slow
+        
+
+        elif x.shape[-1] == 64:
         # if False:
             if inplace:
                 noise = x
