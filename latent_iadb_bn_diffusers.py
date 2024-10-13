@@ -502,7 +502,7 @@ def main():
             noise = np.random.randn(args.eval_batch_size, 4, (args.resolution//8), (args.resolution//8)).astype(np.float32)
 
             # just to reproduce figure 9
-            if False:
+            if True:
                 if i == 0:
                     shown_image_idx = [2, 7, 31, 48]
                     noise = noise[shown_image_idx]
