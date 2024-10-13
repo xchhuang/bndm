@@ -515,7 +515,7 @@ def main():
             # noise = np.load(path + '/noise/noise_batch{:}_idx{:0>5}.npz'.format(args.eval_batch_size, i))['noise']
             noise = torch.from_numpy(noise).to(device)
             # print('noise:', noise.shape)
-
+            
             x_alpha = noise
             # seqs = [noise[0:1]]
             seqs = []
