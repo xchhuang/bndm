@@ -80,8 +80,7 @@ scheduler.set_timesteps(opt.nb_steps)
 model_ddim = UNet2DModel.from_pretrained(outer_folder + "/ddim_church_res64/unet", use_safetensors=True).to(device).eval()
 
 
-resize_res = 128
-
+resize_res = 200
 
 
 def generate_images(seed, num_steps):
@@ -139,7 +138,8 @@ def generate_images(seed, num_steps):
 # Define Gradio interface
 interface = gr.Interface(
     fn=generate_images,
-    inputs=[gr.Number(label="Seed Number", value=0), gr.Slider(minimum=1, maximum=249, step=1, value=180, label="Intermediate steps")],
+    # inputs=[gr.Number(label="Seed Number", value=0), gr.Slider(minimum=1, maximum=249, step=1, value=180, label="Intermediate steps")],
+    inputs=[gr.Number(label="Seed Number", value=5), gr.Slider(minimum=0, maximum=opt.nb_steps-1, step=1, value=int(opt.nb_steps*180/250), label="Intermediate steps")],
     outputs=[gr.Image(label="DDIM"), gr.Image(label="IADB/RectifiedFlow"), gr.Image(label="Our BNDM")],
     title="Visualizing intermediate denoising diffusion steps: DDIM vs. IADB/Rectifiedflow vs. Our BNDM",
     description="""
