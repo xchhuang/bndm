@@ -3,8 +3,3 @@
 
 python gradio_bndm.py --dataset=church_res64 --res=64 --train_or_test=test --scheduler_gamma=sigmoid --scheduler_param=1000 --nb_steps=50
 
-
-
-
-
-
