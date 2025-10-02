@@ -30,10 +30,10 @@ This repository contains the code for our paper:
 ## 📂 Code structure
 
 * `asset`: includes images for the README.
-* `bluenoise`: includes `get_noise` function and the lower-triangular matrix for generating Gaussian blue/red noise. Download the two matrices (.npz files) from [here](https://nextcloud.mpi-klsb.mpg.de/index.php/s/PnqYWym2YEnfrD3) and put them into the `bluenoise` folder.
+* `bluenoise`: includes `get_noise` function and the lower-triangular matrix for generating Gaussian blue/red noise. Download the two matrices (.npz files) from [this google drive link](https://drive.google.com/drive/folders/1zfnuqsXz6CJ_8ZaK0mrderMaIS3hTonp?usp=sharing) and put them into the `bluenoise` folder.
 * `scripts`: includes scripts for reproducing the results in the paper.
-* `data`: includes datasets for training from scratch and super-resolution test. Download the folder from [here](https://nextcloud.mpi-klsb.mpg.de/index.php/s/PnqYWym2YEnfrD3). `cat_res64` and `cat_res512` are for training. `church_res128_test` is for testing super-resolution. Other folders are dummy with few images inside, you can prepare data in the same format if you need to train on your own data.
-* `results_gaussianBN`, `results_gaussianBN_superres`: includes folders of pre-trained models and intial noise for reproducing the figures in the paper. Download the folders from [here](https://nextcloud.mpi-klsb.mpg.de/index.php/s/PnqYWym2YEnfrD3). You can also only download the folders you need and find the corresponding scripts in `scripts/sampling` following the `Usage` section below.
+* `data`: includes datasets for training from scratch and super-resolution test. Download the folder from the same google drive link above. `cat_res64` and `cat_res512` are for training. `church_res128_test` is for testing super-resolution. Other folders are dummy with few images inside, you can prepare data in the same format if you need to train on your own data.
+* `results_gaussianBN`, `results_gaussianBN_superres`: includes folders of pre-trained models and intial noise for reproducing the figures in the paper. Download the folders from the same google drive link above. You can also only download the folders you need and find the corresponding scripts in `scripts/sampling` following the `Usage` section below.
 
 
 ## 🛠️ Installation
