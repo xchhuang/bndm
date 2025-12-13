@@ -739,18 +739,21 @@ def main():
 
         inference_times = []
         noise_gen_times = []
+
+        full_run = True
         for i in tqdm(range(start_batch, num_batch)):
-            # replicability, only one sample
-            if opt.dataset in ['cat_res64'] and i not in [4]:    
-                continue
-            if opt.dataset in ['cat_res128'] and i not in [52]:
-                continue
-            if opt.dataset in ['celeba_res64'] and i not in [37]:
-                continue
-            if opt.dataset in ['celeba_res128'] and i not in [10]:
-                continue
-            if opt.dataset in ['church_res64'] and i not in [4, 23, 32, 36]:
-                continue
+            if not full_run:
+                # replicability, only one sample
+                if opt.dataset in ['cat_res64'] and i not in [4]:    
+                    continue
+                if opt.dataset in ['cat_res128'] and i not in [52]:
+                    continue
+                if opt.dataset in ['celeba_res64'] and i not in [37]:
+                    continue
+                if opt.dataset in ['celeba_res128'] and i not in [10]:
+                    continue
+                if opt.dataset in ['church_res64'] and i not in [4, 23, 32, 36]:
+                    continue
             
             # print(opt.dataset, i, opt.batch_size)
             cur_batch_size = opt.batch_size
