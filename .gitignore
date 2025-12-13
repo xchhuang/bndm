@@ -177,3 +177,5 @@ bluenoise/cov_gaussianBN_L_res64_d3.npz
 bluenoise/cov_gaussianRN_L_res64_d3.npz
 
 .gradio/
+
+scripts/sampling/celeba_res64_test_full.sh
