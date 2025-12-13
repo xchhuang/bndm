@@ -812,7 +812,7 @@ def main():
 
                 for j in range(cur_batch_size):
                     cnt += 1
-                    if j > 0:      # replicability, only one sample
+                    if not full_run and j > 0:      # replicability, only one sample
                         continue
                     sample_j = sample[j]
                     sample_j = torch.clamp((sample_j + 1) / 2.0, 0.0, 1.0)
