@@ -766,7 +766,8 @@ def main():
             if True:
                 x0 = np.load('./results_gaussianBN/{:}_gaussian_linear_outc3_seed0/{:}_iadb_gwn_steps250/noise/noise_batch{:}_idx{:05d}.npz'.format(opt.dataset, opt.dataset, opt.batch_size, i))['noise']
                 x0 = torch.from_numpy(x0).float().to(device)
-            x0 = x0[0:1]       # replicability, only one sample
+            if not full_run:
+                x0 = x0[0:1]       # replicability, only one sample
 
             # print('x0:', x0.shape, x0.min(), x0.max())
             
